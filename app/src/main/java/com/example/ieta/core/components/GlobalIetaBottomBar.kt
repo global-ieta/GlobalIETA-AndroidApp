@@ -3,11 +3,13 @@ package com.example.ieta.core.components
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -169,14 +171,20 @@ private fun BottomNavItemCell(
     onClick: () -> Unit
 ) {
     val animatedIconScale by animateFloatAsState(
-        targetValue = if (isSelected) 1.1f else 0.95f,
-        animationSpec = tween(durationMillis = 200, easing = FastOutSlowInEasing),
+        targetValue = if (isSelected) 1.15f else 0.95f,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessMedium
+        ),
         label = "IconScale"
     )
 
     val animatedIndicatorWidth by animateDpAsState(
-        targetValue = if (isSelected) 20.dp else 0.dp,
-        animationSpec = tween(durationMillis = 220, easing = FastOutSlowInEasing),
+        targetValue = if (isSelected) 24.dp else 0.dp,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioLowBouncy,
+            stiffness = Spring.StiffnessMedium
+        ),
         label = "IndicatorWidth"
     )
 
@@ -194,12 +202,12 @@ private fun BottomNavItemCell(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        // Animated Top Indicator Line
+        // Animated Top Indicator Line with Glow Accent
         Box(
             modifier = Modifier
-                .height(2.dp)
+                .height(3.dp)
                 .width(animatedIndicatorWidth)
-                .clip(RoundedCornerShape(1.dp))
+                .clip(RoundedCornerShape(1.5.dp))
                 .background(GlobalIETAColor.PrimaryCyan)
         )
 
